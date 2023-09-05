@@ -1,0 +1,235 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Chess Game</title>
+    <audio id="moveSound" src="move-self.mp3" preload="auto"></audio>
+    <style>
+      body{
+        background-color: rgb(32, 32, 32);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .collumn{
+
+        display: grid;
+      }
+      .row{
+        display: flex;
+      }
+      .chess-piece {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+}
+      p{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: xx-large;
+        margin-bottom: 30px;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+      }
+      .black {
+        background-color: rgb(90, 90, 90);
+        height:80px;
+        width: 80px;
+        margin: 0px;
+        border-radius: 0;
+        border-style: groove;
+        border: none;
+      }
+
+      .white {
+        background-color: white;
+        height:80px;
+        width: 80px;
+        margin: 0px;
+        border-radius: 0;
+        border-style: groove;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="board">
+      <p>Chess Game</p>
+      <div class="collumn">
+        <div class="row">
+          <div class="black square"><img src="Black-Rook.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Knight.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Bishop.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Queen.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-King.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Bishop.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Knight.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Rook.png"  class="draggable"></div>
+        </div>
+        <div class="row">
+          <div class="white square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="white square"><img src="Black-Pawn.png"  class="draggable"></div>
+          <div class="black square"><img src="Black-Pawn.png"  class="draggable"></div>
+        </div>
+        <div class="row">
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+        </div>
+        <div class="row">
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+        </div>
+        <div class="row">
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+        </div>
+        <div class="row">
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+          <div class="white square"></div>
+          <div class="black square"></div>
+        </div>
+        <div class="row">
+          <div class="black square"><img src="White-Pawn.png" class="draggable" ></div>
+          <div class="white square"><img src="White-Pawn.png" class="draggable" ></div>
+          <div class="black square"><img src="White-Pawn.png"  class="draggable" ></div>
+          <div class="white square"><img src="White-Pawn.png"  class="draggable" ></div>
+          <div class="black square"><img src="White-Pawn.png"  class="draggable" ></div>
+          <div class="white square"><img src="White-Pawn.png"  class="draggable" ></div>
+          <div class="black square"><img src="White-Pawn.png"  class="draggable" ></div>
+          <div class="white square"><img src="White-Pawn.png"  class="draggable" ></div>
+        </div>
+        <div class="row">
+          <div class="white square"><img src="White-Rook.png"  class="draggable"></div>
+          <div class="black square"><img src="White-Knight.png"  class="draggable"></div>
+          <div class="white square"><img src="White-Bishop.png"  class="draggable"></div>
+          <div class="black square"><img src="White-Queen.png"  class="draggable"></div>
+          <div class="white square"><img src="White-King.png"  class="draggable"></div>
+          <div class="black square"><img src="White-Bishop.png"  class="draggable"></div>
+          <div class="white square"><img src="White-Knight.png"  class="draggable"></div>
+          <div class="black square"><img src="White-Rook.png"  class="draggable"></div>
+        </div>
+    </div>
+    <p>It's <span id="player-turn">white</span>'s turn</p>
+
+    </div>
+    <script>
+      const squares = document.querySelectorAll('.square');
+      let draggedElement = null;
+      let playerTurn= 'white';
+  for (let i = 0; i < squares.length; i++) {
+    squares[i].setAttribute('square-Id', i);
+    squares[i].addEventListener('dragstart', dragStart);
+    squares[i].addEventListener('dragover', dragOver);
+    squares[i].addEventListener('drop', dragDrop);
+    squares[i].addEventListener('dragend', dragEnd);
+
+    const chessPieceDiv = document.createElement('div');
+    chessPieceDiv.classList.add('chess-piece');
+    const chessPieceImage = squares[i].querySelector('img');
+
+    if (chessPieceImage !== null) {
+      const src = chessPieceImage.getAttribute('src');
+      const filename = src.substring(src.lastIndexOf('/') + 1);
+      const className = filename.substring(0, filename.lastIndexOf('.'));
+
+      // Set the class of the chess piece div based on the color of the piece
+      if (className.includes('White')) {
+        chessPieceDiv.setAttribute('piece-color', 'white');;
+      } else if (className.includes('Black')) {
+        chessPieceDiv.setAttribute('piece-color', 'black');
+      }
+
+      // Set the piece-id attribute based on the class name
+      chessPieceDiv.setAttribute('piece-id', className.toLowerCase());
+
+      chessPieceImage.classList.add(className);
+      chessPieceDiv.appendChild(chessPieceImage);
+    }
+    squares[i].appendChild(chessPieceDiv);
+  }
+
+
+
+        function dragStart(e){
+          const squareId = e.target.parentNode.parentNode.getAttribute('square-Id');
+          draggedElement= e.target.parentNode;
+          const pieceColor = chessPieceDiv.getAttribute('piece-color');
+          console.log(pieceColor)
+          console.log(playerTurn)
+          // Check if the piece's color matches the current player's turn
+          if (pieceColor === playerTurn) {
+            draggedElement = chessPieceDiv;
+          } else {
+            // If the piece's color doesn't match the current player's turn, don't allow dragging
+            draggedElement = null;
+          }
+        }
+        function dragOver(e){
+          e.preventDefault();
+        }
+        function dragDrop(e) {
+            e.preventDefault();
+            console.log("check")
+            if (draggedElement) {
+              const targetSquare = e.target;
+              const targetChessPiece = targetSquare.querySelector('.chess-piece');
+              const sourceSquare = draggedElement.parentNode;
+
+              if (!targetChessPiece) {
+                // If the target square doesn't already have a chess piece, move the dragged piece to the target square
+                targetSquare.appendChild(draggedElement);
+                playMoveSound();
+              } else {
+                // Swap the positions of the source and target pieces
+                const tempPiece = sourceSquare.removeChild(draggedElement);
+                sourceSquare.appendChild(targetChessPiece);
+                targetSquare.appendChild(tempPiece);
+              }
+            }
+          }
+        function dragEnd() {
+          draggedElement = null; // Reset the dragged element when the drag operation ends
+          playerTurn = playerTurn === 'white' ? 'black' : 'white';
+          const playerTurnSpan = document.getElementById('player-turn');
+          playerTurnSpan.textContent = playerTurn;
+        }
+        function playMoveSound(){
+          const moveSound=document.getElementById('moveSound');
+          moveSound.play();
+        }
+    </script>
+  </body>
+</html>
